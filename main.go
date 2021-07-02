@@ -1,19 +1,12 @@
 package main
 
 import (
-	"fmt"
-
-	"github.com/diogocezar/dctb-go-karatecas/entity"
+	"github.com/diogocezar/dctb-go-karatecas/data"
+	"github.com/diogocezar/dctb-go-karatecas/server"
 )
 
 func main() {
-	k1 := entity.Karateca{
-		FirstName: "Diogo",
-		LastName:  "Cezar",
-		Birthday:  "19/02/1986",
-		Height:    1.69,
-	}
-	list := entity.Karatecas{}
-	list.Add(k1)
-	fmt.Println(list)
+	data.LoadAll()
+	server := server.NewServer()
+	server.Start()
 }
