@@ -1,4 +1,4 @@
-package main
+package dbmongo
 
 import (
 	"context"
@@ -9,7 +9,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func db() *mongo.Client {
+func Get() *mongo.Client {
 	clientOptions := options.Client().ApplyURI("mongodb://localhost:27017")
 	client, err := mongo.Connect(context.TODO(), clientOptions)
 	if err != nil {

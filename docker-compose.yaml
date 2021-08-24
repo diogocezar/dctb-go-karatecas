@@ -1,15 +1,15 @@
 version: "3"
 
 services:
-  api:
-    build: .
-    ports:
-      - "8888:8888"
-    depends_on:
-      - db
-    command: ./main
-    # volumes:
-    #   - ./:/app
+  # api:
+  #   build: .
+  #   ports:
+  #     - "8888:8888"
+  #   depends_on:
+  #     - db
+  #   command: ./main
+  # volumes:
+  #   - ./:/app
   db:
     image: mongo:latest
     ports:

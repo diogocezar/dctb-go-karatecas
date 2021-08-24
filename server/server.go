@@ -1,14 +1,19 @@
 package server
 
 import (
+	"context"
+	"fmt"
 	"net/http"
 
 	"github.com/diogocezar/dctb-go-karatecas/data"
+	"github.com/diogocezar/dctb-go-karatecas/dbmongo"
 	"github.com/diogocezar/dctb-go-karatecas/entity"
 	"github.com/labstack/echo/v4"
 )
 
 type Server struct{}
+
+var karatecasMongo = dbmongo.Get().Database("karatecas-base").Collection("karatecas")
 
 func NewServer() *Server {
 	return &Server{}
@@ -33,8 +38,13 @@ func (server Server) Save(ctx echo.Context) error {
 		return err
 	}
 	newKarateca := entity.Create("", k.FirstName, k.LastName, k.Birthday, k.Height)
-	data.Save(*newKarateca)
-	return ctx.JSON(http.StatusOK, *newKarateca)
+	result, err := karatecasMongo.InsertOne(context.TODO(), newKarateca)
+	if err != nil {
+		fmt.Println(err)
+	}
+	// data.Save(*newKarateca)
+	return ctx.JSON(http.StatusOK, result)
+
 }
 
 func (server Server) Delete(ctx echo.Context) error {
