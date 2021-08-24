@@ -5,14 +5,14 @@ services:
     build: .
     ports:
       - "8888:8888"
-    # depends_on:
-    #   - db
+    depends_on:
+      - db
     command: ./main
     # volumes:
     #   - ./:/app
-  # db:
-  #   image: mongo:latest
-  #   ports:
-  #     - 27017:27017
-  #   volumes:
-  #     - ./database:/data/db
+  db:
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    volumes:
+      - ./database:/data/db

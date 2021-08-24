@@ -23,6 +23,3 @@ RUN go build -o main .
 
 # Expose port 8888 to the outside world
 EXPOSE 8888
-
-# Command to run the executable
-CMD ["./main"]
