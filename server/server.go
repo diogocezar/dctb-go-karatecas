@@ -3,12 +3,13 @@ package server
 import (
 	"context"
 	"fmt"
+	"log"
 	"net/http"
 
-	"github.com/diogocezar/dctb-go-karatecas/data"
 	"github.com/diogocezar/dctb-go-karatecas/dbmongo"
 	"github.com/diogocezar/dctb-go-karatecas/entity"
 	"github.com/labstack/echo/v4"
+	"go.mongodb.org/mongo-driver/bson"
 )
 
 type Server struct{}
@@ -29,7 +30,15 @@ func (server Server) Start() {
 }
 
 func (server Server) GetAll(ctx echo.Context) error {
-	return ctx.JSON(http.StatusOK, data.GetAll())
+	cursor, err := karatecasMongo.Find(context.TODO(), bson.M{})
+	if err != nil {
+		log.Fatal(err)
+	}
+	var karatecas []bson.M
+	if err = cursor.All(context.TODO(), &karatecas); err != nil {
+		log.Fatal(err)
+	}
+	return ctx.JSON(http.StatusOK, karatecas)
 }
 
 func (server Server) Save(ctx echo.Context) error {
@@ -49,7 +58,11 @@ func (server Server) Save(ctx echo.Context) error {
 
 func (server Server) Delete(ctx echo.Context) error {
 	id := ctx.Param("id")
-	data.Delete(id)
+	_, err := karatecasMongo.DeleteOne(context.TODO(), bson.M{"ID": id})
+	if err != nil {
+		fmt.Println(err)
+	}
+	//data.Delete(id)
 	return ctx.String(http.StatusOK, "DELETED: "+id)
 }
 
@@ -60,6 +73,10 @@ func (server Server) Update(ctx echo.Context) error {
 		return err
 	}
 	newKarateca := entity.Create(id, k.FirstName, k.LastName, k.Birthday, k.Height)
-	data.Update(*newKarateca, id)
+	_, err := karatecasMongo.UpdateByID(context.TODO(), id, newKarateca)
+	if err != nil {
+		fmt.Println(err)
+	}
+	//data.Update(*newKarateca, id)
 	return ctx.String(http.StatusOK, "UPDATED: "+id)
 }
