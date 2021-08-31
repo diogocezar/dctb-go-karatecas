@@ -1,12 +1,10 @@
 package main
 
 import (
-	"github.com/diogocezar/dctb-go-karatecas/data"
-	"github.com/diogocezar/dctb-go-karatecas/server"
+	router "github.com/diogocezar/dctb-go-karatecas/router"
 )
 
 func main() {
-	data.LoadAll()
-	server := server.NewServer()
-	server.Start()
+	e := router.New()
+	e.Logger.Fatal(e.Start(":8888"))
 }
