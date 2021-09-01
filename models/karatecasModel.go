@@ -7,7 +7,7 @@ type Karateca struct {
 	Height    float64
 }
 
-func Create(id string, firstName string, lastName string, birthday string, height float64) *Karateca {
+func Create(firstName string, lastName string, birthday string, height float64) *Karateca {
 	return &Karateca{
 		FirstName: firstName,
 		LastName:  lastName,

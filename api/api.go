@@ -6,6 +6,7 @@ import (
 )
 
 func Start(e *echo.Echo) {
+	e.GET("/karatecas/:id", handlers.GetOne)
 	e.GET("/karatecas", handlers.GetAll)
 	e.POST("/karatecas", handlers.Save)
 	e.DELETE("/karatecas/:id", handlers.Delete)
